@@ -95,7 +95,10 @@
     "audiobook": "Build audiobooks with chapters.",
     "transcribe": "Turn recordings into text.",
     "collapseFooter": "Collapse footer",
-    "expandFooter": "Expand footer"
+    "expandFooter": "Expand footer",
+    "focusSubtitle": "Clone a voice from your video or a reference clip, then dub it onto the footage — fully local, no accounts.",
+    "newDub": "New dub",
+    "voices": "Reference voices ready to dub with."
   },
   "twilioIntegration": {
     "exposureWarning": "Turning this on opens a separate local port that your tunnel publishes to the internet. Only requests signed with your Twilio Auth Token are accepted; the rest of VoiceStudio stays private.",

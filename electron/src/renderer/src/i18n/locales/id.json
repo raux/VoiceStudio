@@ -95,7 +95,10 @@
     "audiobook": "Buat buku audio dengan bab.",
     "transcribe": "Ubah rekaman menjadi teks.",
     "collapseFooter": "Ciutkan footer",
-    "expandFooter": "Perluas footer"
+    "expandFooter": "Perluas footer",
+    "focusSubtitle": "Kloning suara dari video Anda atau klip referensi, lalu sulihkan ke rekaman — sepenuhnya lokal, tanpa akun.",
+    "newDub": "Sulih suara baru",
+    "voices": "Suara referensi yang siap untuk sulih suara."
   },
   "twilioIntegration": {
     "exposureWarning": "Mengaktifkan ini membuka port lokal terpisah yang dipublikasikan tunnel Anda ke internet. Hanya permintaan yang ditandatangani dengan Auth Token Twilio Anda yang diterima; bagian lain VoiceStudio tetap privat.",

@@ -95,7 +95,10 @@
     "audiobook": "製作分章節的有聲書。",
     "transcribe": "將錄音轉成文字。",
     "collapseFooter": "收合底欄",
-    "expandFooter": "展開底欄"
+    "expandFooter": "展開底欄",
+    "focusSubtitle": "從影片或參考片段複製聲音，然後為畫面配音 — 完全本機執行，無需帳號。",
+    "newDub": "新增配音",
+    "voices": "可用於配音的參考聲音。"
   },
   "twilioIntegration": {
     "exposureWarning": "開啟後會開啟一個獨立的本機連接埠，由你的通道發布到網際網路。只接受以你的 Twilio Auth Token 簽署的請求；VoiceStudio 的其餘部分維持私密。",

@@ -95,7 +95,10 @@
     "audiobook": "Maak luisterboeken met hoofdstukken.",
     "transcribe": "Zet opnamen om in tekst.",
     "collapseFooter": "Voettekst inklappen",
-    "expandFooter": "Voettekst uitklappen"
+    "expandFooter": "Voettekst uitklappen",
+    "focusSubtitle": "Kloon een stem uit je video of een referentieclip en dub die over het beeldmateriaal — volledig lokaal, zonder account.",
+    "newDub": "Nieuwe dub",
+    "voices": "Referentiestemmen klaar om mee te dubben."
   },
   "twilioIntegration": {
     "exposureWarning": "Inschakelen opent een aparte lokale poort die je tunnel op internet publiceert. Alleen verzoeken die met je Twilio Auth Token zijn ondertekend worden geaccepteerd; de rest van VoiceStudio blijft privé.",

@@ -95,7 +95,10 @@
     "audiobook": "Twórz audiobooki z rozdziałami.",
     "transcribe": "Zamieniaj nagrania na tekst.",
     "collapseFooter": "Zwiń stopkę",
-    "expandFooter": "Rozwiń stopkę"
+    "expandFooter": "Rozwiń stopkę",
+    "focusSubtitle": "Sklonuj głos z filmu lub klipu referencyjnego, a następnie nałóż dubbing na materiał — w pełni lokalnie, bez konta.",
+    "newDub": "Nowy dubbing",
+    "voices": "Głosy referencyjne gotowe do dubbingu."
   },
   "twilioIntegration": {
     "exposureWarning": "Włączenie otwiera osobny port lokalny, który Twój tunel publikuje w internecie. Akceptowane są tylko żądania podpisane Twoim Auth Token Twilio; reszta VoiceStudio pozostaje prywatna.",

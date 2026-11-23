@@ -72,6 +72,7 @@ export function HomeFeatureIcon({ destination }: { destination: string }) {
           </>
         );
       case '/gallery':
+      case '/personas':
         return (
           <>
             <g className="home-svg-fan">

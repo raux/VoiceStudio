@@ -95,7 +95,10 @@
     "audiobook": "Crea audiolibros con capítulos.",
     "transcribe": "Convierte grabaciones en texto.",
     "collapseFooter": "Contraer pie de página",
-    "expandFooter": "Expandir pie de página"
+    "expandFooter": "Expandir pie de página",
+    "focusSubtitle": "Clona una voz de tu vídeo o de un clip de referencia y dóblala sobre el metraje — todo local, sin cuentas.",
+    "newDub": "Nuevo doblaje",
+    "voices": "Voces de referencia listas para doblar."
   },
   "twilioIntegration": {
     "exposureWarning": "Al activarlo se abre un puerto local independiente que tu túnel publica en internet. Solo se aceptan solicitudes firmadas con tu Auth Token de Twilio; el resto de VoiceStudio sigue siendo privado.",

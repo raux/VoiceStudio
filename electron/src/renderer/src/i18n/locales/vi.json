@@ -95,7 +95,10 @@
     "audiobook": "Tạo sách nói có chương.",
     "transcribe": "Chuyển bản ghi âm thành văn bản.",
     "collapseFooter": "Thu gọn chân trang",
-    "expandFooter": "Mở rộng chân trang"
+    "expandFooter": "Mở rộng chân trang",
+    "focusSubtitle": "Nhân bản giọng nói từ video hoặc đoạn tham chiếu, rồi lồng tiếng lên đoạn phim — hoàn toàn cục bộ, không cần tài khoản.",
+    "newDub": "Lồng tiếng mới",
+    "voices": "Giọng tham chiếu sẵn sàng để lồng tiếng."
   },
   "twilioIntegration": {
     "exposureWarning": "Bật tính năng này sẽ mở một cổng cục bộ riêng mà đường hầm của bạn công bố ra internet. Chỉ các yêu cầu được ký bằng Auth Token Twilio của bạn mới được chấp nhận; phần còn lại của VoiceStudio vẫn riêng tư.",

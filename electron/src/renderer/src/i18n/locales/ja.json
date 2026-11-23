@@ -95,7 +95,10 @@
     "audiobook": "章立てのオーディオブックを作成。",
     "transcribe": "録音を文字に起こす。",
     "collapseFooter": "フッターを折りたたむ",
-    "expandFooter": "フッターを展開"
+    "expandFooter": "フッターを展開",
+    "focusSubtitle": "動画または参照クリップから声をクローンし、その映像に吹き替えます — 完全ローカル、アカウント不要。",
+    "newDub": "新しい吹き替え",
+    "voices": "吹き替えに使える参照ボイス。"
   },
   "twilioIntegration": {
     "exposureWarning": "オンにすると、トンネルがインターネットに公開する別のローカルポートが開きます。Twilio Auth Token で署名されたリクエストのみ受け付け、VoiceStudio のその他の部分は非公開のままです。",

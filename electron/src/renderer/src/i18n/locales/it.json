@@ -95,7 +95,10 @@
     "audiobook": "Crea audiolibri con capitoli.",
     "transcribe": "Trasforma le registrazioni in testo.",
     "collapseFooter": "Comprimi piè di pagina",
-    "expandFooter": "Espandi piè di pagina"
+    "expandFooter": "Espandi piè di pagina",
+    "focusSubtitle": "Clona una voce dal tuo video o da una clip di riferimento, poi doppiala sul filmato — tutto in locale, senza account.",
+    "newDub": "Nuovo doppiaggio",
+    "voices": "Voci di riferimento pronte per il doppiaggio."
   },
   "twilioIntegration": {
     "exposureWarning": "Attivandolo si apre una porta locale separata che il tuo tunnel pubblica su internet. Sono accettate solo richieste firmate con il tuo Auth Token Twilio; il resto di VoiceStudio resta privato.",

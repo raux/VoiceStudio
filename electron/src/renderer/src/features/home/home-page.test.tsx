@@ -93,24 +93,24 @@ it('opens both creator profiles from the accessible avatar card', async () => {
   expect(files.openExternal).toHaveBeenCalledWith('https://x.com/idebpalash');
 });
 
-it('separates three primary creation actions and describes all nine destinations', () => {
+it('leads with a New dub action and offers only the clone → dub destinations', () => {
   render(<HomePage />);
-  const clone = screen.getByRole('link', { name: /nav.clone/ });
-  const primary = clone.parentElement!;
+  expect(screen.getByRole('link', { name: 'homeUi.newDub' })).toHaveAttribute('href', '/dub');
+  const dub = screen.getByRole('link', { name: /dubWorkspace.title/ });
+  const primary = dub.parentElement!;
   expect(Array.from(primary.querySelectorAll('a'), (a) => a.getAttribute('href'))).toEqual([
-    '/clone',
-    '/design',
     '/dub',
+    '/clone',
+    '/personas',
   ]);
-  expect(primary.nextElementSibling?.querySelectorAll('a')).toHaveLength(6);
   const icons = document.querySelectorAll('svg.home-feature-svg');
-  expect(icons).toHaveLength(9);
+  expect(icons).toHaveLength(3);
   icons.forEach((icon) => expect(icon).toHaveAttribute('aria-hidden', 'true'));
-  for (const key of ['design', 'dub', 'stories', 'audiobook', 'transcribe']) {
-    expect(screen.getByText('homeUi.' + key)).toBeVisible();
+  expect(screen.getByText('homeUi.focusSubtitle')).toBeVisible();
+  for (const key of ['design', 'stories', 'audiobook', 'transcribe']) {
+    expect(screen.queryByText('homeUi.' + key)).not.toBeInTheDocument();
   }
+  expect(screen.queryByText('designWorkspace.title')).not.toBeInTheDocument();
   expect(screen.queryByText('demo.dictation_lede')).not.toBeInTheDocument();
-  expect(screen.queryByText('dub.supported_formats')).not.toBeInTheDocument();
   expect(screen.queryByText('clone.history_title')).not.toBeInTheDocument();
-  expect(screen.queryByText('0')).not.toBeInTheDocument();
 });

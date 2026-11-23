@@ -95,7 +95,10 @@
     "audiobook": "Bölümlü sesli kitaplar oluşturun.",
     "transcribe": "Kayıtları metne dönüştürün.",
     "collapseFooter": "Alt çubuğu daralt",
-    "expandFooter": "Alt çubuğu genişlet"
+    "expandFooter": "Alt çubuğu genişlet",
+    "focusSubtitle": "Videonuzdan veya bir referans klipten ses klonlayın, ardından görüntünün üzerine dublaj yapın — tamamen yerel, hesap gerekmez.",
+    "newDub": "Yeni dublaj",
+    "voices": "Dublaja hazır referans sesler."
   },
   "twilioIntegration": {
     "exposureWarning": "Bunu açmak, tünelinizin internette yayımladığı ayrı bir yerel bağlantı noktası açar. Yalnızca Twilio Auth Token'ınızla imzalanan istekler kabul edilir; VoiceStudio'nun geri kalanı gizli kalır.",

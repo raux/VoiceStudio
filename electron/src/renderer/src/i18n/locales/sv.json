@@ -95,7 +95,10 @@
     "audiobook": "Skapa ljudböcker med kapitel.",
     "transcribe": "Omvandla inspelningar till text.",
     "collapseFooter": "Fäll ihop sidfoten",
-    "expandFooter": "Fäll ut sidfoten"
+    "expandFooter": "Fäll ut sidfoten",
+    "focusSubtitle": "Klona en röst från din video eller ett referensklipp och dubba den över materialet — helt lokalt, inga konton.",
+    "newDub": "Ny dubbning",
+    "voices": "Referensröster redo att dubba med."
   },
   "twilioIntegration": {
     "exposureWarning": "När detta slås på öppnas en separat lokal port som din tunnel publicerar på internet. Endast förfrågningar signerade med din Twilio Auth Token accepteras; resten av VoiceStudio förblir privat.",

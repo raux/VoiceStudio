@@ -95,7 +95,10 @@
     "audiobook": "Erstelle Hörbücher mit Kapiteln.",
     "transcribe": "Wandle Aufnahmen in Text um.",
     "collapseFooter": "Fußleiste einklappen",
-    "expandFooter": "Fußleiste ausklappen"
+    "expandFooter": "Fußleiste ausklappen",
+    "focusSubtitle": "Klone eine Stimme aus deinem Video oder einem Referenzclip und synchronisiere damit das Material — vollständig lokal, ohne Konto.",
+    "newDub": "Neue Synchronisation",
+    "voices": "Referenzstimmen, bereit zum Synchronisieren."
   },
   "twilioIntegration": {
     "exposureWarning": "Beim Einschalten wird ein separater lokaler Port geöffnet, den dein Tunnel im Internet veröffentlicht. Nur mit deinem Twilio Auth Token signierte Anfragen werden akzeptiert; der Rest von VoiceStudio bleibt privat.",

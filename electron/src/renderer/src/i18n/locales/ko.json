@@ -95,7 +95,10 @@
     "audiobook": "챕터가 있는 오디오북을 만드세요.",
     "transcribe": "녹음을 텍스트로 변환하세요.",
     "collapseFooter": "바닥글 접기",
-    "expandFooter": "바닥글 펼치기"
+    "expandFooter": "바닥글 펼치기",
+    "focusSubtitle": "동영상이나 참조 클립에서 목소리를 복제한 뒤 영상에 더빙하세요 — 완전 로컬, 계정 불필요.",
+    "newDub": "새 더빙",
+    "voices": "더빙에 사용할 참조 목소리."
   },
   "twilioIntegration": {
     "exposureWarning": "켜면 터널이 인터넷에 공개하는 별도의 로컬 포트가 열립니다. Twilio Auth Token으로 서명된 요청만 허용되며 VoiceStudio의 나머지 부분은 비공개로 유지됩니다.",
