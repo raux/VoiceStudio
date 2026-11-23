@@ -5,7 +5,9 @@ import { readLastSettingsRoute } from '@/lib/settings-route';
 const HomePage = lazyRouteComponent(() => import('@/features/home/home-page'), 'HomePage');
 
 const ClonePage = lazyRouteComponent(() => import('@/features/clone/clone-page'), 'ClonePage');
-const DubPage = lazyRouteComponent(() => import('@/features/dub/dub-page'), 'DubPage');
+// The five-step clone → dub flow. The full studio page (features/dub/dub-page)
+// stays in the tree for its hooks and panels but is no longer routed.
+const DubPage = lazyRouteComponent(() => import('@/features/dubflow/dubflow-page'), 'DubflowPage');
 const ProjectsPage = lazyRouteComponent(
   () => import('@/features/projects/projects-page'),
   'ProjectsPage',
