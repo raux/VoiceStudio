@@ -23,8 +23,14 @@ export function MediaPane({ session, className }: { session: DubSession; classNa
   const dubbed = Boolean(session.phase === 'done' && code && session.tracks.includes(code));
   const [track, setTrack] = useState<'original' | 'dub'>('original');
   const active = dubbed && track === 'dub' ? 'dub' : 'original';
+  // The upload is still being prepared/transcribed while `jobId` is set, so
+  // the media URL 404s until then; mounting the player early would cache that
+  // failure. Wait for the segments (or a finished render) before loading.
+  const mediaReady =
+    Boolean(session.jobId) &&
+    (session.segments.length > 0 || ['editing', 'done'].includes(session.phase));
   const source = useMemo(() => {
-    if (!session.jobId) return null;
+    if (!mediaReady) return null;
     if (session.inputType === 'audio')
       return apiPath(
         active === 'original'
@@ -36,7 +42,7 @@ export function MediaPane({ session, className }: { session: DubSession; classNa
         ? `/dub/media/${job}`
         : `/dub/preview-video/${job}?mix=surgical2&lang=${encodeURIComponent(code || '')}`,
     );
-  }, [active, code, job, session.inputType, session.jobId]);
+  }, [active, code, job, mediaReady, session.inputType]);
   const videoSrc = useMemo(
     () =>
       source && active === 'original'

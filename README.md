@@ -4,7 +4,7 @@
   <p>
     <a href="https://trendshift.io/repositories/28176?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-28176" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/28176" alt="VoiceStudio ranking on Trendshift" width="220" height="48" /></a>
   </p>
-  <p><strong>Open-source voice cloning, voice design, video dubbing, dictation, transcription & audiobook creation in 646 languages.</strong></p>
+  <p><strong>Fork of <a href="https://github.com/debpalash/VoiceStudio">debpalash/VoiceStudio</a> focused on one job: clone a voice and dub it onto a video — fully local.</strong></p>
   <p>
     <a href="https://voicestudio.sh/?utm_source=github&utm_medium=readme&utm_campaign=project">Website</a> ·
     <a href="https://github.com/debpalash/VoiceStudio/releases/latest">Download</a> ·
@@ -20,101 +20,118 @@
   </p>
 </div>
 
-![A tour of the Electron app: voice cloning, voice design, dubbing, and model management](docs/media/electron/voicestudio.gif)
+![Home: one "New dub" action, voices, recent projects](docs/media/electron/dubflow-home.jpg)
 
-## Your voice. Your workflow.
+## What this fork does
 
-| Create | Produce | Connect |
-| :--- | :--- | :--- |
-| Clone a voice or design your own | Dub videos with timed speech | Local API & MCP for agents |
-| Dictate with a floating widget | Stories, audiobooks & batch jobs | Optional remote workers |
+Upstream VoiceStudio is a full studio (cloning, voice design, stories, audiobooks, dictation, transcription, batch jobs, integrations…). This fork keeps the same backend and engines but narrows the **UI to a single, linear workflow**:
 
-Start with **VoiceStudio** (default, powered by k2-fsa/OmniVoice), or choose another engine. [Features & engine catalog](docs/feature-catalog.md).
+> **Add a video → choose one voice → translate the script → generate → export.**
 
-Local workflows run on your hardware. Remote services are optional; usage analytics requires consent.
+- **Single speaker.** One voice is applied to every line (`voice_match: consistent`).
+- **Voice from the footage or a reference clip.** Clone the speaker heard in the video (`auto:*` profile), upload / record a 5–15 s reference, or pick a saved voice.
+- **No voice design.** Design, stories, audiobooks, batch, gallery, transcriptions, calls, tools, integrations and Pro are unrouted (they redirect home); their code is still in the tree.
+- **Unchanged backend.** REST/MCP API, engines, models, watermarking and projects are exactly upstream's — see the [features & engine catalog](docs/feature-catalog.md) and the [API section](#api--mcp) below.
 
-<details>
-<summary><strong>Explore the workspaces</strong> · Clone, dub, design & models</summary>
+### The five steps
+
+| Step | What you do | Behind it |
+|---|---|---|
+| 1 **Video** | Drop a video/audio file or paste a URL. Speech is transcribed and the language detected. | `POST /dub/upload` → `GET /dub/transcribe-stream/{job}` |
+| 2 **Voice** | Pick **Speaker in this video**, **Reference clip**, or **Saved voice**. | `POST /profiles` (clone) · one `profile_id` on every segment |
+| 3 **Script** | Choose the language to dub into and translate, or **keep the spoken language**. Edit any line. | `POST /dub/translate` (local Argos by default) |
+| 4 **Generate** | Fast / Autofit / Cinematic quality, then render. | `POST /dub/generate/{job}` · `GET /tasks/stream/{task}` |
+| 5 **Export** | Preview Original ↔ Dub, save MP4 / audio / subtitles. | `GET /dub/tracks/{job}` · `GET /dub/download/{job}` |
+
+The footage stays pinned on the right through every step. Later steps unlock only when the previous one is complete; in-flight work (transcribing, translating, rendering) keeps you on its step.
 
 <table>
   <tr>
-    <td><img src="docs/media/electron/voice-cloning.png" alt="Electron voice cloning workspace with the bundled demo voice" width="100%" /></td>
-    <td><img src="docs/media/electron/dubbing.png" alt="Electron video dubbing workspace" width="100%" /></td>
+    <td><img src="docs/media/electron/dubflow-dub-step1.jpg" alt="Step 1 — add the video" width="100%" /></td>
+    <td><img src="docs/media/electron/dubflow-dub-step2.jpg" alt="Step 2 — choose the voice: speaker in this video, reference clip, or saved voice" width="100%" /></td>
   </tr>
-  <tr><td align="center">Voice cloning</td><td align="center">Video dubbing</td></tr>
+  <tr><td align="center">1 · Video</td><td align="center">2 · Voice</td></tr>
   <tr>
-    <td><img src="docs/media/electron/voice-design.png" alt="Describe a voice in the Electron voice design workspace" width="100%" /></td>
-    <td><img src="docs/media/electron/models.png" alt="Install and manage local speech models" width="100%" /></td>
+    <td><img src="docs/media/electron/dubflow-dub-step3.jpg" alt="Step 3 — script translated into Spanish, editable lines" width="100%" /></td>
+    <td><img src="docs/media/electron/dubflow-dub-step4.jpg" alt="Step 4 — generate the dub" width="100%" /></td>
   </tr>
-  <tr><td align="center">Voice design</td><td align="center">Local models</td></tr>
+  <tr><td align="center">3 · Script</td><td align="center">4 · Generate</td></tr>
 </table>
 
-<img width="2628" height="1950" alt="VoiceStudio desktop workspace" src="https://github.com/user-attachments/assets/b474497d-a453-49a3-a2dd-f023ec6b7659" />
+Where it lives: `electron/src/renderer/src/features/dubflow/` (page, stepper, five step components, `dubflow-state.ts` for gating and voice assignment). Navigation is `components/app-shell/workspace-menu.tsx`; hidden routes are `hiddenRoute()` entries in `routes/index.ts`.
 
-</details>
+## Run it
 
-## Get started
+### Prerequisites
 
-### One-command install (macOS / Linux)
+- **macOS / Linux / Windows**, Node 22+, [Bun](https://bun.sh), [uv](https://docs.astral.sh/uv/) (`brew install uv`), Git.
+- A GPU helps (CUDA / Apple MPS / ROCm) but CPU works. First generation downloads the TTS and Whisper models when you approve it.
+- Rust/Cargo only if you build the Electron **desktop** app (native helper).
 
-```sh
-# Latest Electron release
-curl -fsSL https://voicestudio.sh/install | sh
-
-# A specific published Electron release (replace X.Y.Z)
-curl -fsSL https://voicestudio.sh/install | sh -s -- --version X.Y.Z
-
-# Build current main and install the desktop app
-curl -fsSL https://voicestudio.sh/install | sh -s -- --main
-
-# Uninstall the app, keeping your data
-curl -fsSL https://voicestudio.sh/install | sh -s -- --uninstall
-```
-
-Release downloads require curl and a SHA-256 tool. `--main` requires Git,
-Node.js 22+, Bun, Rust/Cargo, and platform build tools; see
-[installer prerequisites and behavior](docs/install/script.md).
-The installer preserves your settings, projects, and models. Older versions
-must contain Electron packages; it never falls back to archived Tauri builds.
-
-Download from [Releases](https://github.com/debpalash/VoiceStudio/releases/latest), then follow your platform guide:
-
-**[macOS](docs/install/macos.md) · [Windows](docs/install/windows.md) · [Linux](docs/install/linux.md) · [Docker](docs/install/docker.md)**
-
-Open **Voice cloning**, choose a voice or add a clean reference recording, enter your text, and generate. Install the required model when prompted. Hardware needs vary by engine; see [performance](docs/performance.md).
-
-### Install with prompt
-
-Paste into your coding agent (Claude Code, Codex, Cursor, …):
-
-```text
-Install the VoiceStudio Electron app on this device and verify it works, following
-https://github.com/debpalash/VoiceStudio/blob/main/docs/install/agent.md
-```
-
-The [agent guide](docs/install/agent.md) covers hardware detection, reusing existing
-data, asking before model downloads, and a test generation. Agents that support skills
-can also run `npx skills add debpalash/VoiceStudio`.
-
-<details>
-<summary><strong>Run the Electron preview from source</strong></summary>
+### Browser UI + API (what the screenshots use)
 
 ```bash
-git clone https://github.com/debpalash/VoiceStudio.git
+git clone https://github.com/raux/VoiceStudio.git
 cd VoiceStudio
 bun install
-bun run setup:api  # prepare Python dependencies before starting Electron
-bun run dev
+bun run setup:api        # uv sync + Python setup (one-time, several GB)
+
+# Terminal 1 — FastAPI backend on :3900
+bun run dev:api
+
+# Terminal 2 — Vite web UI on :3901
+bun run dev:frontend
 ```
 
-See [Electron setup](electron/README.md) for prerequisites and backend configuration.
+Open **http://localhost:3901/** (routes use hash history, e.g. `http://localhost:3901/#/dub`). The backend is ready when `curl http://localhost:3900/health` returns `{"status":"ok",…}` — allow ~30–40 s for migrations and deferred startup.
 
-Use `bun run smoke-test` to build and launch an isolated packaged Electron app.
-Add `-- --install` for the networked managed-runtime installation check.
+`bun run dev:web` does both in one terminal with `concurrently`.
 
-</details>
+### Electron desktop app
 
-> **Electron is the only desktop app and web UI.** Version 0.5.3 was the final Tauri release. Existing Tauri users must [install Electron separately](docs/electron-migration.md). The retired Tauri shell and legacy UI entry points have been removed.
+```bash
+bun run dev              # starts the backend and the Electron shell
+```
+
+See [electron/README.md](electron/README.md) for packaging (`bun run build`, `bun run dist`).
+
+### Stop
+
+`Ctrl-C` each terminal, or `bun scripts/clear-dev-ports.mjs 3900 3901`.
+
+### Checks
+
+```bash
+bun run --cwd electron typecheck
+bun run --cwd electron lint
+bun run --cwd electron test          # locale checks + vitest
+bun run --cwd electron build:web
+```
+
+## API & MCP
+
+The backend is upstream's, untouched. Useful calls while the stack is running:
+
+```bash
+curl http://localhost:3900/health
+curl http://localhost:3900/openapi.json | jq '.paths | keys'     # ~290 routes
+
+# OpenAI-compatible speech / transcription
+curl http://localhost:3900/v1/audio/speech -H 'Content-Type: application/json' \
+  -d '{"model":"tts-1","voice":"alloy","input":"Hello from VoiceStudio.","response_format":"wav"}' -o out.wav
+curl http://localhost:3900/v1/audio/transcriptions -F file=@out.wav -F model=whisper-1 -F response_format=text
+
+# Provenance: every synthesized clip carries an AudioSeal watermark ("OM", 16 bits)
+curl http://localhost:3900/watermark/detect -F file=@out.wav
+```
+
+Dub pipeline from the shell: `POST /dub/upload` (multipart `video`, `job_id`, `input_type`) → `GET /dub/transcribe-stream/{job}` (SSE) → `POST /dub/translate` → `POST /dub/generate/{job}` → `GET /dub/tracks/{job}` → `GET /dub/download/{job}`. MCP is mounted at `http://localhost:3900/mcp` with `generate_speech`, `clone_voice`, `transcribe`, `list_voices`, `check_health`. Full guides: [Local API](docs/speech-platform.md) · [MCP](docs/mcp.md).
+
+## Upstream install (unchanged)
+
+The one-command installer, release downloads and platform guides from upstream still apply to the backend and desktop shell; only the renderer differs on this fork's `feat/clone-dub-focused-ui` branch.
+
+**[macOS](docs/install/macos.md) · [Windows](docs/install/windows.md) · [Linux](docs/install/linux.md) · [Docker](docs/install/docker.md)** · [Troubleshooting](docs/install/troubleshooting.md) · [Model downloads](docs/downloading-models.md)
 
 ## Documentation
 

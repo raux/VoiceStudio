@@ -87,6 +87,14 @@ it('keeps the spoken language when asked and resolves it from the transcription'
   expect(scriptReady(dubSession.state, dubflow.state)).toBe(false);
 });
 
+it('keeps the script step while a translation is in flight', () => {
+  applyVoice('video');
+  dubSession.setState((current) => ({ ...current, phase: 'translating' }));
+  expect(reachableStep(dubSession.state, dubflow.state)).toBe(3);
+  dubSession.setState((current) => ({ ...current, phase: 'transcribing' }));
+  expect(reachableStep(dubSession.state, dubflow.state)).toBe(1);
+});
+
 it('never lets the visible step run ahead of what is reachable', () => {
   goToStep(5);
   expect(dubflow.state.step).toBe(2);
