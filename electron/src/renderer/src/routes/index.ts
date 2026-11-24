@@ -5,46 +5,42 @@ import { readLastSettingsRoute } from '@/lib/settings-route';
 const HomePage = lazyRouteComponent(() => import('@/features/home/home-page'), 'HomePage');
 
 const ClonePage = lazyRouteComponent(() => import('@/features/clone/clone-page'), 'ClonePage');
-const DesignPage = lazyRouteComponent(() => import('@/features/design/design-page'), 'DesignPage');
-const DubPage = lazyRouteComponent(() => import('@/features/dub/dub-page'), 'DubPage');
-const BatchPage = lazyRouteComponent(() => import('@/features/batch/batch-page'), 'BatchPage');
-const GalleryPage = lazyRouteComponent(
-  () => import('@/features/gallery/gallery-page'),
-  'GalleryPage',
-);
-const TranscriptionsPage = lazyRouteComponent(
-  () => import('@/features/transcriptions/transcriptions-page'),
-  'TranscriptionsPage',
-);
-const StoriesPage = lazyRouteComponent(
-  () => import('@/features/longform/longform-page'),
-  'StoriesPage',
-);
-const AudiobookPage = lazyRouteComponent(
-  () => import('@/features/longform/longform-page'),
-  'AudiobookPage',
-);
+// The five-step clone → dub flow. The full studio page (features/dub/dub-page)
+// stays in the tree for its hooks and panels but is no longer routed.
+const DubPage = lazyRouteComponent(() => import('@/features/dubflow/dubflow-page'), 'DubflowPage');
 const ProjectsPage = lazyRouteComponent(
   () => import('@/features/projects/projects-page'),
   'ProjectsPage',
-);
-const CallsPage = lazyRouteComponent(() => import('@/features/workflows/workflows-page'), 'WorkflowsPage');
-const ToolsPage = lazyRouteComponent(() => import('@/features/tools/tools-page'), 'ToolsPage');
-const IntegrationsPage = lazyRouteComponent(
-  () => import('@/features/integrations/integrations-page'),
-  'IntegrationsPage',
-);
-const IntegrationDetailPage = lazyRouteComponent(
-  () => import('@/features/integrations/integration-detail-page'),
-  'IntegrationDetailPage',
 );
 const SettingsPage = lazyRouteComponent(
   () => import('@/features/settings/settings-page'),
   'SettingsPage',
 );
-const ProPage = lazyRouteComponent(() => import('@/features/pro/pro-page'), 'ProPage');
 
 export const rootRoute = createRootRoute({ component: AppShell });
+
+// Workspaces outside the clone → dub flow stay registered (typed links keep
+// compiling, old deep links still resolve) but land on the home page.
+const hiddenRoute = <P extends HiddenPath>(path: P) =>
+  createRoute({
+    getParentRoute: () => rootRoute,
+    path,
+    beforeLoad: () => {
+      throw redirect({ to: '/' });
+    },
+  });
+type HiddenPath =
+  | '/design'
+  | '/stories'
+  | '/audiobook'
+  | '/batch'
+  | '/gallery'
+  | '/transcriptions'
+  | '/calls'
+  | '/tools'
+  | '/integrations'
+  | '/integrations/$slug'
+  | '/pro';
 
 export const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -105,17 +101,9 @@ export const catchAllRoute = createRoute({
   },
 });
 
-export const transcriptionsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/transcriptions',
-  component: TranscriptionsPage,
-});
+export const transcriptionsRoute = hiddenRoute('/transcriptions');
 
-export const designRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/design',
-  component: DesignPage,
-});
+export const designRoute = hiddenRoute('/design');
 
 export const dubRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -129,37 +117,13 @@ export const logsRoute = createRoute({
   component: SettingsPage,
 });
 
-export const galleryRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/gallery',
-  component: GalleryPage,
-});
+export const galleryRoute = hiddenRoute('/gallery');
 
-export const batchRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/batch',
-  component: BatchPage,
-});
-export const callsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/calls',
-  component: CallsPage,
-});
-export const toolsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/tools',
-  component: ToolsPage,
-});
-export const integrationsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/integrations',
-  component: IntegrationsPage,
-});
-export const integrationDetailRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/integrations/$slug',
-  component: IntegrationDetailPage,
-});
+export const batchRoute = hiddenRoute('/batch');
+export const callsRoute = hiddenRoute('/calls');
+export const toolsRoute = hiddenRoute('/tools');
+export const integrationsRoute = hiddenRoute('/integrations');
+export const integrationDetailRoute = hiddenRoute('/integrations/$slug');
 export const mediaRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/settings/media',
@@ -175,16 +139,8 @@ export const projectsRoute = createRoute({
   path: '/projects',
   component: ProjectsPage,
 });
-export const storiesRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/stories',
-  component: StoriesPage,
-});
-export const audiobookRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/audiobook',
-  component: AudiobookPage,
-});
+export const storiesRoute = hiddenRoute('/stories');
+export const audiobookRoute = hiddenRoute('/audiobook');
 export const networkRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/settings/network',
@@ -241,11 +197,7 @@ export const supportRoute = createRoute({
   },
   component: SettingsPage,
 });
-export const proRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/pro',
-  component: ProPage,
-});
+export const proRoute = hiddenRoute('/pro');
 export const updatesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/settings/updates',
