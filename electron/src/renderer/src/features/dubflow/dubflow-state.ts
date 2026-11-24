@@ -63,9 +63,11 @@ export const useDubflow = () => useStore(dubflow);
 /** Highest step the session can show right now. */
 export function reachableStep(session: DubSession, flow: DubflowState): DubflowStep {
   const ready = Boolean(session.jobId) && session.segments.length > 0;
-  const busy = !['idle', 'editing', 'done'].includes(session.phase);
-  if (!ready || (busy && session.phase !== 'generating')) return 1;
+  // In-flight phases pin the flow to the step that started them, so a
+  // translation or render in progress never bounces the user backwards.
+  if (!ready || ['preparing', 'transcribing', 'importing'].includes(session.phase)) return 1;
   if (!flow.profileId || flow.jobId !== session.jobId) return 2;
+  if (['translating', 'cleaning'].includes(session.phase)) return 3;
   if (!scriptReady(session, flow)) return 3;
   const dub = dubLanguage(session, flow);
   if (session.phase !== 'done' || !dub || !session.tracks.includes(dub.code)) return 4;
